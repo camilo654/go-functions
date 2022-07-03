@@ -20,12 +20,13 @@ func GetPokemonName(id int) string {
 func getPokemonFromService(id int) models.Pokemon {
 	response, err := http.Get(fmt.Sprint("https://pokeapi.co/api/v2/pokemon-form/", id))
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(err, "An error occured while making the request")
 	}
+	defer response.Body.Close()
 
 	responseBody, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(err, "An error occured when reading the response")
 	}
 
 	var responsePokemonService models.ResponsePokemonService
